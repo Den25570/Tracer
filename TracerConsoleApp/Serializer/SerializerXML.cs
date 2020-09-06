@@ -26,11 +26,7 @@ namespace TracerConsoleApp
 
                 using (StringWriter textWriter = new StringWriter())
                 {
-                    var xmlwriter = new XmlTextWriter(Console.Out);
-                    xmlwriter.Formatting = System.Xml.Formatting.Indented;
-                    xmlwriter.Indentation = 4;
-
-                    formatter.Serialize(xmlwriter, traceResult);
+                    formatter.Serialize(textWriter, traceResult);
                     output = textWriter.ToString();
                 }
 
