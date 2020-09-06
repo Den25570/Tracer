@@ -8,7 +8,6 @@ using System.Xml.Serialization;
 namespace Tracer
 {
     [Serializable]
-    [XmlRoot("trace_result")]
     public class TraceResult
     {
         [Serializable]
@@ -17,16 +16,10 @@ namespace Tracer
             [Serializable]
             public class Method
             {
-                [XmlAttribute]
                 public string Name { get; private set; }
-                [XmlAttribute]
                 public string Class { get; private set; }
-                [XmlAttribute]
                 public int Time;
-                [XmlElement(ElementName = "method")]
                 public Method[] Methods { get; private set; }
-
-                public Method(){}
 
                 public Method(MethodTrace currentMethodTrace)
                 {
@@ -47,14 +40,9 @@ namespace Tracer
                 }
             }
 
-            [XmlAttribute]
             public int Id { get; private set; }
-            [XmlAttribute]
             public int Time { get; private set; }
-            [XmlElement(ElementName = "method")]
-            public Method[] Methods { get;  set; }
-
-            public Thread() { }
+            public Method[] Methods { get; private set; }
 
             public Thread(ThreadTrace currentThreadTrace)
             {
@@ -63,10 +51,8 @@ namespace Tracer
                 Methods = Method.formMethodsArray(currentThreadTrace.Methods.ToArray());
             }
         }
-        [XmlElement(ElementName = "thread")]
-        public Thread[] threads { get; private set; }
 
-        public TraceResult(){}
+        public Thread[] threads { get; private set; }
 
         public TraceResult(Trace trace)
         {

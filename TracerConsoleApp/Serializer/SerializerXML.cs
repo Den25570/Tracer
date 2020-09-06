@@ -12,6 +12,9 @@ using Tracer;
 using TracerConsoleApp.Serializer;
 using System.Xml.Serialization;
 using System.Xml;
+using System.Xml.Linq;
+using static Tracer.TraceResult.Thread;
+using System.Threading;
 
 namespace TracerConsoleApp
 {
@@ -19,18 +22,65 @@ namespace TracerConsoleApp
     {
         public class SerializerXML : ISerializer
         {
+
             public string Serialize(TraceResult traceResult)
             {
-                string output;
-                XmlSerializer formatter = new XmlSerializer(typeof(TraceResult));
+                TraceResult.Thread[] threadsInfo = traceResult.threads;
+                XDocument xDocument = new XDocument(new XElement("root"));
 
-                using (StringWriter textWriter = new StringWriter())
+                foreach (TraceResult.Thread thread in threadsInfo)
                 {
-                    formatter.Serialize(textWriter, traceResult);
-                    output = textWriter.ToString();
+                    XElement threadXElement = GetThreadXElement(thread);
+                    xDocument.Root.Add(threadXElement);
                 }
 
-                return output;
+                StringWriter stringWriter = new StringWriter();
+                using (XmlTextWriter xmlWriter = new XmlTextWriter(stringWriter))
+                {
+                    xmlWriter.Formatting = System.Xml.Formatting.Indented;
+                    xDocument.WriteTo(xmlWriter);
+                }
+                return stringWriter.ToString();
+            }
+
+            private XElement GetMethodXElement(Method methodInfo)
+            {
+                return new XElement(
+                    "method",
+                    new XAttribute("name", methodInfo.Name),
+                    new XAttribute("class", methodInfo.Class),
+                    new XAttribute("time", methodInfo.Time)
+                    );
+            }
+
+            private XElement GetMethodXElementWithChildMethods(Method methodInfo)
+            {
+                XElement methodXElement = GetMethodXElement(methodInfo);
+                foreach (Method method in methodInfo.Methods)
+                {
+                    XElement childMethod = GetMethodXElement(method);
+                    if (method.Methods.Length > 0)
+                    {
+                        childMethod = GetMethodXElementWithChildMethods(method);
+                    }
+                    methodXElement.Add(childMethod);
+                }
+                return methodXElement;
+            }
+
+            private XElement GetThreadXElement(TraceResult.Thread threadInfo)
+            {
+                XElement threadXElement = new XElement(
+                    "thread",
+                    new XAttribute("id", threadInfo.Id),
+                    new XAttribute("time", threadInfo.Time)
+                    );
+                foreach (Method method in threadInfo.Methods)
+                {
+                    XElement methodXElement = GetMethodXElementWithChildMethods(method);
+                    threadXElement.Add(methodXElement);
+                }
+                return threadXElement;
             }
 
         }
