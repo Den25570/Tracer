@@ -14,6 +14,12 @@ namespace TracerConsoleApp
                 {
                     Console.SetOut(writer);
                 }
+                else
+                {
+                    var standardOutput = new StreamWriter(Console.OpenStandardOutput());
+                    standardOutput.AutoFlush = true;
+                    Console.SetOut(standardOutput);
+                }
                 Console.WriteLine(toWrite);
             }
         }

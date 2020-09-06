@@ -16,7 +16,7 @@ namespace TracerConsoleApp
     {
         public interface ISerializer
         {
-            string Serialize(string path, TraceResult traceResults);
+            string Serialize(TraceResult traceResults);
         }
     }
 }

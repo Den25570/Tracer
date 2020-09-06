@@ -21,6 +21,7 @@ namespace Tracer
         {
             this.MethodName = methodName;
             this.ClassName = className;
+            this.Methods = new ConcurrentBag<MethodTrace>();
         }
 
         public void StartCount()

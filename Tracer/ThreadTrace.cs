@@ -18,6 +18,7 @@ namespace Tracer
         public ThreadTrace(int id)
         {
             this.currentStackTrace = new ConcurrentStack<MethodTrace>();
+            this.Methods = new ConcurrentBag<MethodTrace>();
             this.TotalExecutionTime = 0;
 
             this.Id = id;

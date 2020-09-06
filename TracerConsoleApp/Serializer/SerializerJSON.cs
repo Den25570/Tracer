@@ -15,14 +15,14 @@ namespace TracerConsoleApp
 {
     namespace Serializer
     {
-        class SerializerJSON : ISerializer
+        public class SerializerJSON : ISerializer
         {
-            public void Serialize(string path, TraceResult traceResult)
+            public string Serialize(TraceResult traceResult)
             {
                 string output;
                 JsonSerializer serializer = new JsonSerializer();
 
-                output = JsonConvert.SerializeObject(traceResult);
+                output = JsonConvert.SerializeObject(traceResult, Formatting.Indented);
 
                 return output;
             }

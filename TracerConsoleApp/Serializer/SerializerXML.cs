@@ -11,21 +11,26 @@ using System.Globalization;
 using Tracer;
 using TracerConsoleApp.Serializer;
 using System.Xml.Serialization;
+using System.Xml;
 
 namespace TracerConsoleApp
 {
     namespace Serializer
     {
-        class SerializerXML : ISerializer
+        public class SerializerXML : ISerializer
         {
-            public string Serialize(string path, TraceResult traceResult)
+            public string Serialize(TraceResult traceResult)
             {
                 string output;
                 XmlSerializer formatter = new XmlSerializer(typeof(TraceResult));
 
                 using (StringWriter textWriter = new StringWriter())
                 {
-                    formatter.Serialize(textWriter, traceResult);
+                    var xmlwriter = new XmlTextWriter(Console.Out);
+                    xmlwriter.Formatting = System.Xml.Formatting.Indented;
+                    xmlwriter.Indentation = 4;
+
+                    formatter.Serialize(xmlwriter, traceResult);
                     output = textWriter.ToString();
                 }
 
