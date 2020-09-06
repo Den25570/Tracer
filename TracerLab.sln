@@ -8,6 +8,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TracerConsoleApp", "TracerConsoleApp\TracerConsoleApp.csproj", "{FA119DCD-6EE3-4549-BE1B-79946044F07B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TracerUnitTest", "TracerUnitTest\TracerUnitTest.csproj", "{4C821242-48BC-4048-B899-EC51BC89A64C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{00917BC8-4DA1-4C9C-9461-DF71362E5D61} = {00917BC8-4DA1-4C9C-9461-DF71362E5D61}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
