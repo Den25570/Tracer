@@ -12,28 +12,69 @@ namespace Tracer
     public class TraceResult
     {
         [Serializable]
-        public struct Thread
+        public class Thread
         {
             [Serializable]
-            public struct Method
+            public class Method
             {
                 [XmlAttribute]
-                public string Name;
+                public string Name { get; private set; }
                 [XmlAttribute]
-                public string Class;
+                public string Class { get; private set; }
                 [XmlAttribute]
                 public int Time;
                 [XmlElement(ElementName = "method")]
-                public Method[] Methods;
+                public Method[] Methods { get; private set; }
+
+                public Method(){}
+
+                public Method(MethodTrace currentMethodTrace)
+                {
+                    Name = currentMethodTrace.MethodName;
+                    Class = currentMethodTrace.ClassName;
+                    Time = currentMethodTrace.ExecutionTime;
+                    Methods = formMethodsArray(currentMethodTrace.Methods.ToArray());
+                }
+                internal static Method[] formMethodsArray(MethodTrace[] methodTraceArray)
+                {
+                    Method[] methods = new Method[methodTraceArray.Length];
+
+                    for (int i = 0; i < methods.Length; i++)
+                    {
+                        methods[i] = new Method(methodTraceArray[i]);
+                    }
+                    return methods;
+                }
             }
+
             [XmlAttribute]
-            public int Id;
+            public int Id { get; private set; }
             [XmlAttribute]
-            public int Time;
+            public int Time { get; private set; }
             [XmlElement(ElementName = "method")]
-            public Method[] Methods;
+            public Method[] Methods { get;  set; }
+
+            public Thread() { }
+
+            public Thread(ThreadTrace currentThreadTrace)
+            {
+                Id = currentThreadTrace.Id;
+                Time = currentThreadTrace.TotalExecutionTime;
+                Methods = Method.formMethodsArray(currentThreadTrace.Methods.ToArray());
+            }
         }
         [XmlElement(ElementName = "thread")]
-        public Thread[] threads;
+        public Thread[] threads { get; private set; }
+
+        public TraceResult(){}
+
+        public TraceResult(Trace trace)
+        {
+            threads = new Thread[trace.threads.Count];
+            for (int i = 0; i < threads.Length; i++)
+            {
+                threads[i] = new Thread(trace.threads.ElementAt(i).Value);            
+            }
+        }
     }
 }

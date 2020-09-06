@@ -37,45 +37,7 @@ namespace Tracer
 
         public TraceResult GetTraceResult()
         {
-            return formTraceResult();
-        }
-
-        private TraceResult formTraceResult()
-        {
-            TraceResult traceResult = new TraceResult();
-
-            traceResult.threads = new TraceResult.Thread[trace.threads.Count];
-            for(int i = 0; i < traceResult.threads.Length; i++)
-            {
-                ThreadTrace currentThreadTrace = trace.threads.ElementAt(i).Value;
-
-                traceResult.threads[i] = new TraceResult.Thread();
-                traceResult.threads[i].Id = currentThreadTrace.Id;
-                traceResult.threads[i].Time = currentThreadTrace.TotalExecutionTime;
-
-                traceResult.threads[i].Methods = formMethodsArray(currentThreadTrace.Methods.ToArray());
-            }
-
-            return traceResult;
-        }
-
-        private TraceResult.Thread.Method[] formMethodsArray(MethodTrace[] methodTraceArray)
-        {
-            TraceResult.Thread.Method[] methods = new TraceResult.Thread.Method[methodTraceArray.Length];
-
-            for (int i = 0; i < methods.Length; i++)
-            {
-                MethodTrace currentMethodTrace = methodTraceArray[i];
-
-                methods[i] = new TraceResult.Thread.Method();
-                methods[i].Name = currentMethodTrace.MethodName;
-                methods[i].Class = currentMethodTrace.ClassName;
-                methods[i].Time = currentMethodTrace.ExecutionTime;
-
-                methods[i].Methods = formMethodsArray(currentMethodTrace.Methods.ToArray());
-            }
-
-            return methods;
+            return new TraceResult(trace);
         }
     }
 }
