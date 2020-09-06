@@ -25,13 +25,20 @@ namespace TracerConsoleApp
 
             //Serialize
             string result = serializerXML.Serialize(tracer.GetTraceResult());
-            StreamWriter fs = new StreamWriter("people.xml");
-
+            StreamWriter fs = new StreamWriter("test.xml");
             //Write
-            writer.Write(result);
             writer.Write(result, fs);
+            writer.Write(result);
+
+            //Serialize
+            result = serializerJSON.Serialize(tracer.GetTraceResult());
+            StreamWriter fs2 = new StreamWriter("test.json");
+            //Write
+            writer.Write(result, fs2);
+            writer.Write(result);
 
             fs.Close();
+            fs2.Close();
         }
     }
 }
