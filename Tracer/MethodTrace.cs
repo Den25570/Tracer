@@ -11,7 +11,7 @@ namespace Tracer
     {
         public string MethodName;
         public string ClassName;
-        public UInt32 ExecutionTime;
+        public int ExecutionTime;
 
         private DateTime startTime;
 
@@ -32,7 +32,7 @@ namespace Tracer
         {
             DateTime stopTime = DateTime.UtcNow;
             TimeSpan span = stopTime - startTime;
-            ExecutionTime = (UInt32)span.TotalMilliseconds;
+            ExecutionTime = (int)span.TotalMilliseconds;
         }
     }
 }

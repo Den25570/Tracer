@@ -8,11 +8,11 @@ using System.Threading;
 
 namespace Tracer
 {
-    public class TraceResult
+    public class Trace
     {
         public ConcurrentDictionary<int, ThreadTrace> threads;
 
-        public TraceResult()
+        public Trace()
         {
             threads = new ConcurrentDictionary<int, ThreadTrace>();
         }
