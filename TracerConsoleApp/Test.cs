@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using Tracer;
 
 namespace TracerConsoleApp
@@ -35,9 +36,23 @@ namespace TracerConsoleApp
             _tracer = tracer;
         }
 
+        public void InnerMethod2()
+        {
+            _tracer.StartTrace();
+
+            Thread.Sleep(50);
+
+            _tracer.StopTrace();
+        }
+
         public void InnerMethod()
         {
             _tracer.StartTrace();
+
+            InnerMethod2();
+            Thread thread = new Thread(InnerMethod2);
+            thread.Start();
+            thread.Join();
 
             _tracer.StopTrace();
         }

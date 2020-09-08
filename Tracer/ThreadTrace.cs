@@ -32,7 +32,7 @@ namespace Tracer
             }
             else
             {
-                MethodTrace currentMethod = currentStackTrace.Last();
+                MethodTrace currentMethod = currentStackTrace.First();
                 currentMethod.Methods.Add(method);
             }
 
