@@ -10,7 +10,7 @@ namespace Tracer
     public class ThreadTrace
     {
         public int Id;
-        public int TotalExecutionTime = 0;
+        public int TotalExecutionTime { get; private set; }
         public ConcurrentBag<MethodTrace> Methods;
 
         private ConcurrentStack<MethodTrace> currentStackTrace;
@@ -45,7 +45,8 @@ namespace Tracer
             if (currentStackTrace.TryPop(out currentMethod))
             {
                 currentMethod.StopCount();
-                TotalExecutionTime += currentMethod.ExecutionTime;
+                if(currentStackTrace.IsEmpty)
+                    TotalExecutionTime += currentMethod.ExecutionTime;
             }
             else
             {

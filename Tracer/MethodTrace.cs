@@ -7,7 +7,7 @@ namespace Tracer
     {
         public string MethodName;
         public string ClassName;
-        public int ExecutionTime;
+        public int ExecutionTime { get; private set; }
 
         private DateTime startTime;
 
@@ -18,6 +18,7 @@ namespace Tracer
             this.MethodName = methodName;
             this.ClassName = className;
             this.Methods = new ConcurrentBag<MethodTrace>();
+            this.ExecutionTime = -1;
         }
 
         public void StartCount()
